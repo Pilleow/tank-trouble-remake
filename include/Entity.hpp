@@ -16,6 +16,7 @@ public:
     void handleKeyUp(SDL_Keycode key);
     void updateDeltas();
 	void updatePos();
+
 private:
     bool k_up = false, k_down = false; 
     bool k_left = false, k_right = false;

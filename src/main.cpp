@@ -41,8 +41,7 @@ int main(int argc, char *args[])
     /* FPS CAP SETUP */
 
     unsigned int fps = 60;
-    unsigned int a;
-    unsigned int b = SDL_GetTicks();
+    unsigned int a, b = SDL_GetTicks();
     double delta;
 
     /* MAIN GAME LOOP -------------------------------------------- */
@@ -73,6 +72,8 @@ int main(int argc, char *args[])
                     break;
             }
         }
+
+        
 
         /* MOVE PLAYERS */
 

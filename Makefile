@@ -10,6 +10,7 @@ GXX = g++
 
 bin/debug/main: $(MAIN)
 	./$(P_OUT)/$(MAIN)
+	$(RM) -r *.o
 
 main: 
 	$(GXX) -c $(P_SRC)/*.cpp $(SRC_FLAGS)
