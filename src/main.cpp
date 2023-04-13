@@ -1,8 +1,11 @@
+#include <iostream>
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_image.h>
-#include <iostream>
-#include <Entity.hpp>
+#include <chrono>
+#include <thread>
 
+#include "Map.hpp"
+#include "Entity.hpp"
 #include "RenderWindow.hpp"
 
 /* DEFINING RESOLUTION (PREPROCESSOR) */
@@ -37,6 +40,9 @@ int main(int argc, char *args[])
     Entity player2((int)(RES_X*2/3), (int)(RES_Y/3), tank2, 0);
     Entity player3((int)(RES_X*2/3), (int)(RES_Y*2/3), tank3, 0);
     Entity player4((int)(RES_X/3), (int)(RES_Y*2/3), tank4, 0);
+    
+    Map map(8, 12);
+    map.generateNew(0.9 * RES_X, 0.9 * RES_Y, 0.1 * RES_X, 0.1 * RES_Y);
 
     /* FPS CAP SETUP */
 
@@ -53,7 +59,7 @@ int main(int argc, char *args[])
 
         a = SDL_GetTicks();
         delta = a - b;
-        if (delta < 1000/fps) continue;
+        if (delta < 1000/fps) std::this_thread::sleep_for(std::chrono::milliseconds((int)(1000.0/fps - delta)));
         b = a;
 
         /* EVENT HANDLING */
@@ -66,14 +72,14 @@ int main(int argc, char *args[])
                     break;
                 case SDL_KEYDOWN:
                     player1.handleKeyDown(event.key.keysym.sym);
+                    if (event.key.keysym.sym == SDLK_F1)
+                        map.generateNew(0.9 * RES_X, 0.9 * RES_Y, 0.1 * RES_X, 0.1 * RES_Y);
                     break;
                 case SDL_KEYUP:
                     player1.handleKeyUp(event.key.keysym.sym);
                     break;
             }
         }
-
-        
 
         /* MOVE PLAYERS */
 
@@ -83,6 +89,8 @@ int main(int argc, char *args[])
         /* RENDERING ELEMENTS TO WINDOW */
 
         window.clear();
+
+        map.render(window.getRenderer());
 
         window.renderEntity(player1);
         window.renderEntity(player2);

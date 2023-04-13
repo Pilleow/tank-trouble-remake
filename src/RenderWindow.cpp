@@ -4,8 +4,9 @@
 #include <Entity.hpp>
 
 #include "RenderWindow.hpp"
+
 #define RAD(x) (x * M_PI / 180)
-#define TEXTURE_SIZE_MOD 0.4
+#define TEXTURE_SIZE_MOD 0.25
 #define BG_FADE_SPEED 1000.0
 
 /* Creates a window of p_w width and p_h height with p_title name, and a renderer linked to the window */
@@ -57,6 +58,10 @@ void RenderWindow::renderEntity(Entity entity)
         entity.getAngle(), &center, SDL_FLIP_NONE);
 }
 
+SDL_Renderer *RenderWindow::getRenderer() {
+    return renderer;
+}
+
 /* Render a SDL_Texture to current renderer. */
 void RenderWindow::render(SDL_Texture *p_tex, int x, int y)
 {
@@ -81,8 +86,8 @@ void RenderWindow::display()
     bg_r = 235 + 20 * sin((double)SDL_GetTicks()/BG_FADE_SPEED           );
     bg_g = 235 + 20 * sin((double)SDL_GetTicks()/BG_FADE_SPEED +   M_PI/3);
     bg_b = 235 + 20 * sin((double)SDL_GetTicks()/BG_FADE_SPEED + 2*M_PI/3);
-    SDL_RenderPresent(renderer);
     SDL_SetRenderDrawColor(renderer, bg_r, bg_g, bg_b, 200);
+    SDL_RenderPresent(renderer);
 }
 
 /* Destroy the window */
